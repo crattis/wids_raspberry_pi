@@ -44,7 +44,7 @@ EOF
 
 echo -n "What is your static ip address for this device? "
 read new_ipaddress
-echo -n "What is your netmask in dotted noation? "
+echo -n "What is your netmask in dotted notation? "
 read new_netmask
 
 mv /etc/network/interfaces /etc/network/interfaces_orginal
@@ -72,7 +72,7 @@ read drone_name
 echo -n "Enter Kismet Server IP: "
 read server_address
 
-cat << EOF > /etc/kismet/kistmet_drone.conf
+cat << EOF > /etc/kismet/kismet_drone.conf
 Servername=$drone_name
 dronelisten=tcp://$new_ipaddress:2502
 allowedhosts=$server_address
@@ -81,19 +81,28 @@ dronemaxclients=10
 droneringlen=65535
 gps=false
 ncsource=$wireless_card:type=ath5k
+channelvelocity=5
+# Users outside the US might want to use this list:
+# channellist=IEEE80211b:1,7,13,2,8,3,14,9,4,10,5,11,6,12
+channellist=IEEE80211b:1:3,6:3,11:3,2,7,3,8,4,9,5,10
+# US IEEE 80211a
+# Combo
+channellist=IEEE80211ab:1:3,6:3,11:3,2,7,3,8,4,9,5,10,36,40,44,48,52,56,60,64,149,153,157,161,165
+
 EOF
 
 cat <<EOF >> /etc/rc.local
-# start kistmet
+# start kismet
  /usr/bin/kismet_drone --daemonize
 exit 0
 EOF
 
-# Kali Raspberry Pi securiy clean-up.i
+# Kali Raspberry Pi securiy clean-up.
 echo -e "\n"
 echo -e "Last steps. Change the root password, and regenerate SSH keys"
 echo -e "\n"
-echo -n "Enter new root password: " | (passwd --stdin $USER)
+sleep 10
+echo -n "Enter new root password in form of user:password " | chpasswd
 echo -e "\n"
 echo -e "changeing the ssh keys for security"
 echo -e "\n"
