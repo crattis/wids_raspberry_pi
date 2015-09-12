@@ -4,6 +4,7 @@
 # Chris J. rattis@gmail.com / chrisj@rattis.net @rattis twitter crattis on git
 
 # prep apt, and download needed files.
+echo -e "\n"
 echo "Downloading and installing triggerhappy and lau5.1 from Kali repositories"
 echo -e "\n"
 sleep 10
@@ -21,12 +22,12 @@ echo "installing raspi-config debian package"
 echo -e "\n"
 sleep 10
 dpkg -i raspi-config_20150706_all.deb
-chmod 755 raspi-config
 
 echo -e "\n"
 echo -e "about to start raspi-config. 2 steps needed."
 echo -e "First 1) Expand Filesystem."
 echo -e "Second 3)Enable Boot to Desktop/Scratch chagne to commandline"
+echo -e "Third select Finish and Reboot"
 echo -e "\n"
 sleep 10
 
