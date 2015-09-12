@@ -59,10 +59,50 @@ iface eth0 inet static
    netmask $new_netmask
 EOF
 
-
 # setting up /etc/kismet_drone.conf
 echo -e "\n"
-echo -e "Setting up Kismet Drone Configuration"
+echo -e "Setting up the short Kismet Drone Configuration"
 echo -e "\n"
+
 mv /etc/kisment_drone.conf /etc/kismet_drone_orignal.conf
-wireless_card=`ifconfig | awk '/wlan/ {print $1}'`
+wireless_card=`ifconfig | awk '/wlan/ {print $1}'`a
+
+echo -n "Enter drone server name: "
+read drone_name
+echo -n "Enter Kismet Server IP: "
+read server_address
+
+cat << EOF > /etc/kistmet_drone.conf
+Servername=$drone_name
+dronelisten=tcp://$new_ipaddress:2502
+allowedhosts=$server_address
+droneallowedhosts==127.0.0.1
+dronemaxclients=10
+droneringlen=65535
+gps=false
+ncsource=$wireless_card:type=ath5k
+EOF
+
+cat <<EOF >> /etc/rc.local
+# start kistmet
+ /usr/bin/kismet_drone --daemonize
+exit 0
+EOF
+
+# Kali Raspberry Pi securiy clean-up.i
+echo -e "\n"
+echo -e "Last steps. Change the root password, and regenerate SSH keys"
+echo -e "\n"
+echo -n "Enter new root password: " | (passwd --stdin $USER)
+echo -e "\n"
+echo -e "changeing the ssh keys for security"
+echo -e "\n"
+rm /etc/ssh/ssh_host_*
+dpkg-reconfigure openssh-server
+service ssh restart
+
+echo 
+read -p "press [Enter] key  to reboot to your new Wifi Intrusion Detection System Drone"
+
+reboot
+
