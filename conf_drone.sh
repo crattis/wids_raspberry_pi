@@ -42,7 +42,7 @@ ff02::1         ip6-allnodes
 ff02::2         ip6-allrouters
 EOF
 
-echo -n "What is your static ip address for this devcie? "
+echo -n "What is your static ip address for this device? "
 read new_ipaddress
 echo -n "What is your netmask in dotted noation? "
 read new_netmask
@@ -64,7 +64,7 @@ echo -e "\n"
 echo -e "Setting up the short Kismet Drone Configuration"
 echo -e "\n"
 
-mv /etc/kisment_drone.conf /etc/kismet_drone_orignal.conf
+mv /etc/kismet_drone.conf /etc/kismet_drone_orignal.conf
 wireless_card=`ifconfig | awk '/wlan/ {print $1}'`a
 
 echo -n "Enter drone server name: "
