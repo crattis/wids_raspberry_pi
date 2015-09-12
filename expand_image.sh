@@ -7,7 +7,7 @@
 echo -e "\n"
 echo "Downloading and installing triggerhappy and lau5.1 from Kali repositories"
 echo -e "\n"
-sleep 10
+sleep 5
 apt-get update
 apt-get install -y triggerhappy lua5.1 
 
