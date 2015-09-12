@@ -59,12 +59,12 @@ iface eth0 inet static
    netmask $new_netmask
 EOF
 
-# setting up /etc/kismet_drone.conf
+# setting up /etc/ksimet/kismet_drone.conf
 echo -e "\n"
 echo -e "Setting up the short Kismet Drone Configuration"
 echo -e "\n"
 
-mv /etc/kismet_drone.conf /etc/kismet_drone_orignal.conf
+mv /etc/kismet/kismet_drone.conf /etc/kismet/kismet_drone_orignal.conf
 wireless_card=`ifconfig | awk '/wlan/ {print $1}'`a
 
 echo -n "Enter drone server name: "
@@ -72,7 +72,7 @@ read drone_name
 echo -n "Enter Kismet Server IP: "
 read server_address
 
-cat << EOF > /etc/kistmet_drone.conf
+cat << EOF > /etc/kismet/kistmet_drone.conf
 Servername=$drone_name
 dronelisten=tcp://$new_ipaddress:2502
 allowedhosts=$server_address
