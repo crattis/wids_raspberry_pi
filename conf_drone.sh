@@ -65,7 +65,7 @@ echo -e "Setting up the short Kismet Drone Configuration"
 echo -e "\n"
 
 mv /etc/kismet/kismet_drone.conf /etc/kismet/kismet_drone_orignal.conf
-wireless_card=`ifconfig | awk '/wlan/ {print $1}'`a
+wireless_card=`ifconfig | awk '/wlan/ {print $1}'`
 
 echo -n "Enter drone server name: "
 read drone_name
@@ -91,11 +91,21 @@ channellist=IEEE80211ab:1:3,6:3,11:3,2,7,3,8,4,9,5,10,36,40,44,48,52,56,60,64,14
 
 EOF
 
-cat <<EOF >> /etc/rc.local
-# start kismet
- /usr/bin/kismet_drone --daemonize
-exit 0
+cat <<EOF >> /etc/systemd/system/kismetdrone.service
+[Unit]
+Description=Kismet Drone Daemon
+After=network.target auditd.service
+
+[Service]
+SuccessExitStatus=0 1
+ExecStart=/usr/bin/kismet_drone
+
+[Install]
+WantedBy=multi-user.target
 EOF
+
+systemctl enable kismetdrone.service
+systemctl mask NetworkManager.service
 
 # Kali Raspberry Pi securiy clean-up.
 echo -e "\n"
