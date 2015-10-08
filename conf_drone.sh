@@ -114,7 +114,7 @@ echo -e "\n"
 sleep 10
 echo -n "Enter new root password " 
 read -p root: -s pass
-echo $pass | chpasswd
+echo "root:$pass" | chpasswd
 unset pass
 echo -e "\n"
 echo -e "changeing the ssh keys for security"
