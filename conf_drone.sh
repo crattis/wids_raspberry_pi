@@ -112,7 +112,10 @@ echo -e "\n"
 echo -e "Last steps. Change the root password, and regenerate SSH keys"
 echo -e "\n"
 sleep 10
-echo -n "Enter new root password in form of user:password " | chpasswd
+echo -n "Enter new root password " 
+read -p root: -s pass
+echo $pass | chpasswd
+unset pass
 echo -e "\n"
 echo -e "changeing the ssh keys for security"
 echo -e "\n"
